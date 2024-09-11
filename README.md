@@ -1,70 +1,117 @@
-# Getting Started with Create React App
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# React Member Management App
+
+This React application provides a member management interface, including authentication, member creation, listing, updating, and deletion. The app interacts with a backend service via RESTful APIs, handling JWT-based authentication and error management.
+
+## Table of Contents
+
+- [Installation](#installation)
+- [Available Scripts](#available-scripts)
+- [Features](#features)
+- [Pages and Components](#pages-and-components)
+- [API Integration](#api-integration)
+- [Error Handling](#error-handling)
+- [Usage](#usage)
+
+## Installation
+
+1. **Clone the repository:**
+
+   ```bash
+   git clone https://github.com/sijosaji/kitchensink-ui.git
+   cd kitchensink-ui
+   ```
+
+2. **Install dependencies:**
+
+   ```bash
+   npm install
+   ```
+
+3. **Run the app:**
+
+   ```bash
+   npm start
+   ```
 
 ## Available Scripts
 
 In the project directory, you can run:
 
-### `npm start`
+- `npm start` - Runs the app in the development mode.
+- `npm test` - Launches the test runner.
+- `npm run build` - Builds the app for production.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+## Features
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+- **User Authentication**: Login and registration with JWT token management.
+- **Member Management**: Create, list, update, and delete members.
+- **Form Validation**: Client-side validation for member data.
+- **Error Handling**: Graceful handling of API errors, including token expiration, validation errors, and rate limiting.
 
-### `npm test`
+## Pages and Components
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+### `App.js`
 
-### `npm run build`
+- The main entry point of the application.
+- Handles routing between `LoginPage`, `RegisterPage`, and `Dashboard`.
+- Manages JWT tokens in `localStorage`.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+### `Dashboard.js`
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+- Main component for managing members.
+- Allows users to add new members and lists all existing members.
+- Utilizes the `MemberTable` component to display members.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+### `MemberTable.js`
 
-### `npm run eject`
+- Displays a table of members with options to edit or delete.
+- Integrates modals for editing and deleting members.
+- Fetches member data using the `fetchMembers` function.
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+### `ErrorModal.js`
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+- A reusable component for displaying error messages.
+- Used across various components to handle and show API errors.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+## API Integration
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+The app integrates with backend services using `axios`:
 
-## Learn More
+### Auth API
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+- Base URL: `http://localhost:9000/auth`
+- Handles user authentication and registration.
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+### Member API
 
-### Code Splitting
+- Base URL: `http://localhost:8080/kitchensink/rest`
+- Handles CRUD operations for members.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+### Axios Interceptors
 
-### Analyzing the Bundle Size
+- **Request Interceptor**: Adds the `Authorization` header with the JWT token for `memberApi` requests.
+- **Response Interceptor**: Handles token refresh on `401` errors and reattempts the original request.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+### API Functions
 
-### Making a Progressive Web App
+- `login(credentials)` - Authenticates a user and retrieves tokens.
+- `register(userData)` - Registers a new user.
+- `createMember(memberData)` - Creates a new member.
+- `listMembers()` - Fetches all members.
+- `getMember(id)` - Fetches details of a specific member.
+- `updateMember(id, memberData)` - Updates a member's details.
+- `deleteMember(id)` - Deletes a member.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+## Error Handling
 
-### Advanced Configuration
+- **401 Unauthorized**: Redirects the user to the login page.
+- **429 Too Many Requests**: Displays a retry-after message.
+- **400/409 Bad Request/Conflict**: Displays validation errors returned by the backend.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+## Usage
 
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+1. **Login**: Access the login page at `/login`. After successful login, you will be redirected to the dashboard.
+2. **Register**: New users can register at `/register`. After registration, the user can log in with their credentials.
+3. **Manage Members**: On the dashboard, users can add, edit, or delete members.
+4. **Logout**: Users can log out using the logout button, which clears the JWT tokens from `localStorage`.
