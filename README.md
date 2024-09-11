@@ -1,5 +1,5 @@
 
-# React Member Management App
+# Member Management App
 
 This React application provides a member management interface, including authentication, member creation, listing, updating, and deletion. The app interacts with a backend service via RESTful APIs, handling JWT-based authentication and error management.
 
