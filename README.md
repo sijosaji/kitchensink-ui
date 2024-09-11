@@ -57,19 +57,19 @@ In the project directory, you can run:
 - Handles routing between `LoginPage`, `RegisterPage`, and `Dashboard`.
 - Manages JWT tokens in `localStorage`.
 
-### `Dashboard.js`
+### `Dashboard.jsx`
 
 - Main component for managing members.
 - Allows users to add new members and lists all existing members.
 - Utilizes the `MemberTable` component to display members.
 
-### `MemberTable.js`
+### `MemberTable.jsx`
 
 - Displays a table of members with options to edit or delete.
 - Integrates modals for editing and deleting members.
 - Fetches member data using the `fetchMembers` function.
 
-### `ErrorModal.js`
+### `ErrorModal.jsx`
 
 - A reusable component for displaying error messages.
 - Used across various components to handle and show API errors.
