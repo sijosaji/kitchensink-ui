@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback, useRef } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { createMember, listMembers } from '../ApiCentral';
 import MemberTable from './MemberTable';
@@ -14,7 +14,6 @@ const Dashboard = ({ tokens }) => {
     const [isErrorModalOpen, setIsErrorModalOpen] = useState(false);
     const [validationErrors, setValidationErrors] = useState({});
     const navigate = useNavigate();
-    const hasFetchedMembers = useRef(false);
 
     const fetchMembers = useCallback(async () => {
         try {
@@ -34,11 +33,8 @@ const Dashboard = ({ tokens }) => {
     }, [navigate]);
 
     useEffect(() => {
-        if (!hasFetchedMembers.current) {
-            fetchMembers();
-            hasFetchedMembers.current = true;
-        }
-    }, [fetchMembers]);
+        fetchMembers();
+    }, []);
 
     const validateForm = () => {
         const errors = {};
