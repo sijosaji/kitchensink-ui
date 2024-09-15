@@ -6,14 +6,13 @@ import Dashboard from './components/Dashboard';
 
 const App = () => {
     const [tokens, setTokens] = useState({
-        accessToken: localStorage.getItem('accessToken'),
-        refreshToken: localStorage.getItem('refreshToken'),
+        accessToken: localStorage.getItem('accessToken')
     });
 
     const handleLogin = (accessToken, refreshToken) => {
         localStorage.setItem('accessToken', accessToken);
         localStorage.setItem('refreshToken', refreshToken);
-        setTokens({ accessToken, refreshToken });
+        setTokens({ accessToken});
     };
 
     const isAuthenticated = !!tokens.accessToken;
@@ -25,7 +24,7 @@ const App = () => {
                 <Route path="/register" element={<RegisterPage />} />
                 <Route
                     path="/dashboard"
-                    element={isAuthenticated ? <Dashboard tokens={tokens} /> : <Navigate to="/login" />}
+                    element={isAuthenticated ? <Dashboard /> : <Navigate to="/login" />}
                 />
                 <Route path="*" element={<Navigate to="/login" />} />
             </Routes>

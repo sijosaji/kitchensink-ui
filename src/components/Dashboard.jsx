@@ -5,7 +5,7 @@ import MemberTable from './MemberTable';
 import ErrorModal from './ErrorModal';
 import '../App.css';
 
-const Dashboard = ({ tokens }) => {
+const Dashboard = () => {
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
     const [phoneNumber, setPhoneNumber] = useState('');
@@ -138,7 +138,7 @@ const Dashboard = ({ tokens }) => {
                 
                 <button type="submit">Add Member</button>
             </form>
-            <MemberTable members={members} fetchMembers={fetchMembers} tokens={tokens} />
+            <MemberTable members={members} fetchMembers={fetchMembers} />
             {isErrorModalOpen && (
                 <ErrorModal errorMessage={errorMessage} onClose={closeModal} />
             )}

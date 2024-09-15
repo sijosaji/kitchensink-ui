@@ -6,7 +6,7 @@ import { deleteMember, getMember, updateMember } from '../ApiCentral';
 import ErrorModal from './ErrorModal';
 import '../App.css';
 
-const MemberTable = ({ members, fetchMembers, tokens }) => {
+const MemberTable = ({ members, fetchMembers }) => {
     const [editingMember, setEditingMember] = useState(null);
     const [deletingMemberId, setDeletingMemberId] = useState(null);
     const [errorMessage, setErrorMessage] = useState('');
