@@ -40,11 +40,20 @@ memberApi.interceptors.response.use(
             originalRequest._retry = true;
             try {
                 const refreshToken = localStorage.getItem('refreshToken');
-                const { data } = await authApi.put(`/${refreshToken}/refresh`);
+                
+                // Make the API call with refresh token in the request body
+                const { data } = await authApi.put('/refresh', { refreshToken }, {
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                });
+
                 localStorage.setItem('accessToken', data.accessToken);
                 localStorage.setItem('refreshToken', data.refreshToken);
                 originalRequest.headers['Authorization'] = `Bearer ${data.accessToken}`;
-                return memberApi(originalRequest); // Retry the original request with the new token
+                
+                // Retry the original request with the new token
+                return memberApi(originalRequest);
             } catch (refreshError) {
                 return Promise.reject(refreshError);
             }
@@ -60,6 +69,7 @@ memberApi.interceptors.response.use(
         return Promise.reject(error);
     }
 );
+
 
 // Auth API functions
 export const login = (credentials) => authApi.post('/token', credentials);
